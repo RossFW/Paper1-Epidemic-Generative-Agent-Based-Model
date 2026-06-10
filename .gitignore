@@ -1,0 +1,22 @@
+# Pickled simulation checkpoints — regenerable intermediate state, not
+# human-readable, version-fragile. The usable data is in the CSV exports.
+# (~859 MB across 44 files.) Available on request / by re-running the sims.
+*.pkl
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Secrets
+.env
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+
+# Notebook checkpoints
+.ipynb_checkpoints/

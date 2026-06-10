@@ -1,0 +1,112 @@
+```{r}
+# ──────────────────────────────────────────────────────────────────────────────
+# 0.  Packages
+# ──────────────────────────────────────────────────────────────────────────────
+library(data.table)
+library(dplyr)
+library(fixest)
+library(lme4)
+library(broom)
+library(broom.mixed)
+library(purrr)
+library(glmmTMB)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1.  Load & prep data (scale CF, build poly on CF_z)
+# ──────────────────────────────────────────────────────────────────────────────
+df <- fread("Run1_Indiv_Data_for_logistic_regression.csv") %>%
+  mutate(agent_key = paste0(`Run Number`, "_", name),
+         id        = as.integer(factor(agent_key))) %>%
+  rename(time                = `Time Step`,
+         StayHome            = Response,
+         SlightCough         = slight_cough,
+         FeverCough          = cough_and_fever,
+         CF_orig             = `Daily New Cases Day 4`,
+         extraversion        = Extraversion,
+         agreeableness       = Agreeableness,
+         conscientiousness   = Conscientiousness,
+         emotional_stability = `Emotional Stability`,
+         intellect           = `Openness to Experience`) %>%
+  mutate(
+    CF_z  = as.numeric(scale(CF_orig)),
+    age_z = as.numeric(scale(age))
+  )
+
+# build a single orthogonal basis for CF_z
+polyCF <- poly(df$CF_z, 2)    # 2 columns: linear, quadratic, uncorrelated
+df <- df %>%
+  mutate(
+    CF1 = polyCF[,1],         # linear
+    CF2 = polyCF[,2]          # quadratic
+  )
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2.  Fit the four models
+# ──────────────────────────────────────────────────────────────────────────────
+FE1 <- feglm(StayHome ~ SlightCough + FeverCough       | id, df, family="logit")
+FE2 <- feglm(StayHome ~ SlightCough + FeverCough + CF1 | id, df, family="logit")
+FE3 <- feglm(StayHome ~ SlightCough + FeverCough + CF1 + CF2 | id, df, family="logit")
+
+RE4 <- glmer(
+  StayHome ~ SlightCough + FeverCough + CF1 + CF2 +
+             agreeableness + conscientiousness +
+             extraversion  + emotional_stability +
+             intellect     + age_z + gender +
+           (1|id),
+  df, family=binomial,
+  control = glmmTMBControl(
+    optimizer = optim,
+    optArgs   = list(iter.max = 1e6, eval.max = 1e6)
+
+  )
+)
+
+models <- list(FE1=FE1, FE2=FE2, FE3=FE3, RE4=RE4)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3.  Check singularity of RE4
+# ──────────────────────────────────────────────────────────────────────────────
+message("RE4 singular? ", lme4::isSingular(RE4, tol=1e-4))
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4.  Coefs & SEs
+# ──────────────────────────────────────────────────────────────────────────────
+coef_table <- map_df(names(models), function(nm) {
+  m <- models[[nm]]
+  td <- if (inherits(m, "fixest")) broom::tidy(m) else broom.mixed::tidy(m, effects="fixed")
+  td %>%
+    select(term, estimate, std.error, statistic, p.value) %>%
+    mutate(model=nm)
+})
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5.  Model‐level stats
+# ──────────────────────────────────────────────────────────────────────────────
+get_pR2 <- function(m) if (inherits(m,"fixest")) as.numeric(r2(m,type="pr2")) else NA_real_
+model_stats <- map_df(names(models), function(nm) {
+  m <- models[[nm]]
+  data.frame(
+    model    = nm,
+    N        = nobs(m),
+    BIC      = BIC(m),
+    PseudoR2 = get_pR2(m),
+    stringsAsFactors = FALSE
+  )
+}) %>%
+  distinct(model, .keep_all=TRUE) %>%
+  mutate(
+    N        = format(N, big.mark=","),
+    BIC      = sprintf("%.1f", BIC),
+    PseudoR2 = ifelse(is.na(PseudoR2),"",sprintf("%.3f",PseudoR2))
+  ) %>%
+  select(model,N,BIC,PseudoR2)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 6.  Inspect & save
+# ──────────────────────────────────────────────────────────────────────────────
+print(coef_table)
+print(model_stats)
+
+write.csv(coef_table,  "v6_model_coefficients.csv", row.names=FALSE)
+write.csv(model_stats, "v6_model_gof_stats.csv",    row.names=FALSE)
+```

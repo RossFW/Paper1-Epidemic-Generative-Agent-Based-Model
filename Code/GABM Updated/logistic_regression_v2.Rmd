@@ -1,0 +1,129 @@
+---
+title: "GABM Logistic Regression"
+author: "Ross"
+date: "2025-04-25"
+output: html_document
+---
+
+```{r}
+# ──────────────────────────────────────────────────────────────────────────────
+# 0.  Packages (install broom.mixed if you haven’t already)
+# ──────────────────────────────────────────────────────────────────────────────
+library(data.table)    # fread
+library(dplyr)         # data wrangling
+library(fixest)        # feglm
+library(lme4)          # glmer
+library(broom)         # tidy.fixest
+library(broom.mixed)   # tidy.glmerMod
+library(purrr)         # map_df
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 1.  Load & prep data
+# ──────────────────────────────────────────────────────────────────────────────
+df <- fread("Run1_Indiv_Data_for_logistic_regression.csv") %>%
+  mutate(agent_key = paste0(`Run Number`, "_", name),
+         id        = as.integer(factor(agent_key))) %>%
+  rename(time                = `Time Step`,
+         StayHome            = Response,
+         SlightCough         = slight_cough,
+         FeverCough          = cough_and_fever,
+         CaseFeedback        = `Daily New Cases Day 4`,
+         extraversion        = Extraversion,
+         agreeableness       = Agreeableness,
+         conscientiousness   = Conscientiousness,
+         emotional_stability = `Emotional Stability`,
+         intellect           = `Openness to Experience`) %>%
+  mutate(CaseFeedback  = CaseFeedback * 1000,
+         CaseFeedback2 = CaseFeedback^2)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 2.  Fit the four models
+# ──────────────────────────────────────────────────────────────────────────────
+FE1 <- feglm(StayHome ~ SlightCough + FeverCough               | id,
+             df, family = "logit")
+FE2 <- feglm(StayHome ~ SlightCough + FeverCough + CaseFeedback | id,
+             df, family = "logit")
+FE3 <- feglm(StayHome ~ SlightCough + FeverCough +
+                          CaseFeedback + CaseFeedback2          | id,
+             df, family = "logit")
+RE4 <- glmer(StayHome ~ SlightCough + FeverCough +
+                          CaseFeedback + CaseFeedback2 +
+                          agreeableness + conscientiousness + extraversion +
+                          emotional_stability + intellect +
+                          age + gender + (1 | id),
+             df, family = binomial)
+
+models <- list(FE1 = FE1, FE2 = FE2, FE3 = FE3, RE4 = RE4)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 3.  Pull out coefficient tables (term, estimate, SE, z/t-stat, p-value)
+# ──────────────────────────────────────────────────────────────────────────────
+coef_table <- map_df(names(models), function(nm) {
+  m <- models[[nm]]
+  t <- if (inherits(m, "fixest")) {
+    broom::tidy(m)
+  } else {
+    broom.mixed::tidy(m, effects = "fixed")
+  }
+  t %>%
+    select(term, estimate, std.error, statistic, p.value) %>%
+    mutate(model = nm)
+}, .id = NULL)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 4.  Pull out model-level stats: N, BIC, pseudo-R² (FE only)
+# ──────────────────────────────────────────────────────────────────────────────
+get_pR2 <- function(m) {
+  if (inherits(m, "fixest")) {
+    as.numeric(r2(m, type = "pr2"))  # McFadden R²
+  } else {
+    NA_real_
+  }
+}
+
+model_stats <- purrr::map_df(names(models), function(nm) {
+  m <- models[[nm]]
+  data.frame(
+    model    = nm,
+    N        = nobs(m),
+    BIC      = BIC(m),
+    PseudoR2 = get_pR2(m),
+    stringsAsFactors = FALSE
+  )
+}) %>%
+  # Ensure one row per model in case of reruns
+  distinct(model, .keep_all = TRUE) %>%
+  # Format for readability
+  mutate(
+    N        = format(N, big.mark = ","),
+    BIC      = sprintf("%.1f", BIC),
+    PseudoR2 = ifelse(is.na(PseudoR2), "", sprintf("%.3f", PseudoR2))
+  ) %>%
+  select(model, N, BIC, PseudoR2)
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 5.  Inspect & save GOF table
+# ──────────────────────────────────────────────────────────────────────────────
+print(model_stats)
+
+write.csv(model_stats, "final_model_gof_stats.csv", row.names = FALSE)
+
+# (Optional: pretty display in RMarkdown)
+if (requireNamespace("knitr", quietly = TRUE)) {
+  knitr::kable(
+    model_stats,
+    col.names = c("Model", "N", "BIC", "Pseudo R²"),
+    caption  = "Goodness-of-Fit Statistics"
+  )
+}
+
+# ──────────────────────────────────────────────────────────────────────────────
+# 6.  (Optional) save coef table as well
+# ──────────────────────────────────────────────────────────────────────────────
+write.csv(coef_table, "final_model_coefficients.csv", row.names = FALSE)
+
+
+```
+
+
+

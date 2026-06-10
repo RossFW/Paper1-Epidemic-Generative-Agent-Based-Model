@@ -1,0 +1,50 @@
+2025-03-12 15:38:34,665 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,716 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,727 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,760 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,795 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,820 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,846 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,872 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,913 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,963 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:34,972 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:35,122 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:35,444 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:35,802 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:35,913 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:35,928 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:38:36,523 - ERROR - Something unexpected happened. Error: Error code: 404 - {'error': {'message': 'The model `gpt-3.5-turbo-0301` has been deprecated, learn more here: https://platform.openai.com/docs/deprecations', 'type': 'invalid_request_error', 'param': None, 'code': 'model_not_found'}}
+2025-03-12 15:48:05,354 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:05,354 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:07,854 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:08,042 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:08,111 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:08,218 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:16,420 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:16,420 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:16,420 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:18,905 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:18,925 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:19,051 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:19,071 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:27,472 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:48:30,030 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:04,115 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:04,448 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:04,488 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:04,622 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:06,721 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:06,779 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:07,018 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:18,404 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:20,101 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:20,110 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:20,174 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:20,981 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:22,619 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:22,727 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:22,828 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:23,568 - ERROR - Something unexpected happened. Error: Connection error.
+2025-03-12 15:54:25,345 - ERROR - Something unexpected happened. Error: Connection error.
+2025-04-01 13:09:00,190 - ERROR - Something unexpected happened YEET. Error: Request timed out.

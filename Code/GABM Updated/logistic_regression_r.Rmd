@@ -1,0 +1,118 @@
+---
+title: "GABM Logistic Regression"
+author: "Ross"
+date: "2025-04-25"
+output: html_document
+---
+
+```{r}
+#####################################################################
+# table1_models.R  – Replicates the four Table-1 regressions in R
+# Raw prevalence version • Column names adapted: slight_cough → SlightCough
+#####################################################################
+
+# 1.  Packages -------------------------------------------------------
+library(data.table)     # fast read & write
+library(dplyr)          # data wrangling
+library(fixest)         # fixed-effects logit (feglm)
+library(lme4)           # random-effects logit (glmer)
+library(broom)          # tidy model outputs
+library(performance)    # BIC & pseudo-R²
+library(modelsummary)   # convenient table export
+
+# 2.  Import the CSV -------------------------------------------------
+df <- fread("AllRuns_Indiv_Data_for_logistic_regression.csv")
+
+# 3.  Unique agent id = run number + name ----------------------------
+df <- df %>%
+  mutate(agent_key = paste0(`Run Number`, "_", name),
+         id        = as.integer(factor(agent_key)))   # numeric id like Stata’s encode
+
+# 4.  Stata-friendly names ------------------------------------------
+df <- df %>%
+  rename(time            = `Time Step`,
+         StayHome        = Response,
+         SlightCough     = slight_cough,
+         FeverCough      = cough_and_fever,
+         CaseFeedback    = `Daily New Cases Day 4`,
+         extraversion    = Extraversion,
+         agreeableness   = Agreeableness,
+         conscientiousness = Conscientiousness,
+         emotional_stability = `Emotional Stability`,
+         intellect       = `Openness to Experience`)
+
+# 5.  Quadratic term (raw^2) ----------------------------------------
+df <- df %>% mutate(CaseFeedback2 = CaseFeedback^2)
+# If CaseFeedback is a raw count and you need to divide by 1000, do it here:
+# df <- df %>% mutate(CaseFeedback   = CaseFeedback/1000,
+#                     CaseFeedback2 = CaseFeedback^2)
+
+# 6.  Panel structure helper ----------------------------------------
+# fixest will absorb `id` as the fixed effect; no explicit xtset needed.
+# If you ever want plm-style pdata.frame:
+# df <- pdata.frame(df, index = c("id", "time"))
+
+# 7.  Regression 1 (FE): Slight + Fever -----------------------------
+FE1 <- feglm(StayHome ~ SlightCough + FeverCough | id,
+             data = df, family = "logit")
+
+# 8.  Regression 2 (FE): add CaseFeedback ---------------------------
+FE2 <- feglm(StayHome ~ SlightCough + FeverCough + CaseFeedback | id,
+             data = df, family = "logit")
+
+# 9.  Regression 3 (FE): add CaseFeedback² --------------------------
+FE3 <- feglm(StayHome ~ SlightCough + FeverCough +
+                           CaseFeedback + CaseFeedback2 | id,
+             data = df, family = "logit")
+
+# 10. Regression 4 (RE): traits + age + gender ----------------------
+RE4 <- glmer(StayHome ~ SlightCough + FeverCough +
+                           CaseFeedback + CaseFeedback2 +
+                           agreeableness + conscientiousness + extraversion +
+                           emotional_stability + intellect +
+                           age + gender + (1 | id),
+             data = df, family = binomial)
+
+# 11.  Collect coefficients & fit stats -----------------------------
+models <- list(FE1 = FE1, FE2 = FE2, FE3 = FE3, RE4 = RE4)
+
+# Helper to pull BIC & McFadden pseudo-R²
+fit_stats <- lapply(models, function(m) {
+  data.frame(LogLik    = logLik(m),
+             BIC       = BIC(m),
+             Pseudo_R2 = r2_nakagawa(m)$R2)   # McFadden for feglm, Nakagawa for glmer
+}) |> bind_rows(.id = "model")
+
+# 12.  Export --------------------------------------------------------
+modelsummary(models,
+             statistic  = "({std.error})",
+             fmt        = 4,
+             gof_omit   = "AIC|RMSE|IC|Deviance",
+             add_rows   = list(
+               LogLik     = round(fit_stats$LogLik, 1),
+               BIC        = round(fit_stats$BIC, 1),
+               Pseudo_R2  = round(fit_stats$Pseudo_R2, 3)),
+             output     = "table1_coeffs.csv")
+
+# Done!  The CSV now mirrors your Stata estout (coef | se | LogLik | BIC | Pseudo_R2)
+
+```
+```{r}
+pkgs <- c("data.table", "dplyr", "fixest", "lme4",
+          "broom", "performance", "modelsummary")
+lapply(pkgs, library, character.only = TRUE)
+```
+```{r}
+# ------------------- INSTALL NEEDED PACKAGES -------------------
+pkgs <- c("data.table", "dplyr", "fixest", "lme4",
+          "broom", "performance", "modelsummary")
+
+# add a default CRAN mirror so it won't keep asking
+options(repos = c(CRAN = "https://cloud.r-project.org"))
+
+# install everything that isn't already present
+install.packages(setdiff(pkgs, rownames(installed.packages())),
+                 dependencies = TRUE)
+# ---------------------------------------------------------------
+
+```
