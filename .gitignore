@@ -32,3 +32,8 @@ backoff_log.txt
 # The Full Feedback R03 runs these duplicate live in Data Raw/Full Feedback/R03/.
 responses_over_time_run_*.csv
 stats_for_agents_run_*.csv
+
+# Redundant Python-path artifacts (R pipeline via logistic_regression_v2.Rmd is canonical).
+# AllRuns is regenerable by extract_pkl.py; analysis_vars was logistic.py's output.
+AllRuns_Indiv_Data_for_logistic_regression.csv
+analysis_vars.csv
