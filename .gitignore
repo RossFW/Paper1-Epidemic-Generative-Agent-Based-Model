@@ -20,3 +20,10 @@ __pycache__/
 
 # Notebook checkpoints
 .ipynb_checkpoints/
+
+# R session artifacts + runtime logs
+.RData
+.Rhistory
+*.log
+errors.txt
+backoff_log.txt
