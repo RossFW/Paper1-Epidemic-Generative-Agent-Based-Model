@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Epidemic Modeling with Generative Agents</title>
+<meta name="description" content="A new paradigm of individual-level epidemic modeling: LLM-powered generative agents that reason and decide like people during an epidemic.">
+<style>
+  :root{
+    --maroon:#861F41; --orange:#C95B0C; --ink:#1a1a1a; --muted:#5b5b5b;
+    --line:#e7e4df; --bg:#fbfaf8; --card:#ffffff;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.6; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:880px;margin:0 auto;padding:0 24px}
+  header{border-top:5px solid var(--maroon);}
+  .kicker{
+    font-size:12.5px;letter-spacing:.09em;text-transform:uppercase;
+    color:var(--maroon);font-weight:700;margin:40px 0 14px;
+  }
+  h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-size:clamp(30px,5vw,46px);line-height:1.12;font-weight:700;
+    letter-spacing:-.01em;margin-bottom:22px;
+  }
+  .authors{font-size:18px;line-height:1.5;margin-bottom:6px}
+  .authors sup{color:var(--maroon);font-weight:700;font-size:.7em}
+  .affil{font-size:14px;color:var(--muted);margin-bottom:20px}
+  .badges{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
+  .badge{
+    font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:999px;
+    background:#f1ece4;color:#6b5535;border:1px solid #e3dac9;
+  }
+  .actions{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:8px}
+  a.btn{
+    display:inline-flex;align-items:center;gap:8px;text-decoration:none;
+    font-size:15px;font-weight:600;padding:11px 18px;border-radius:10px;
+    border:1.5px solid var(--line);color:var(--ink);background:var(--card);
+    transition:.15s ease;
+  }
+  a.btn:hover{border-color:var(--maroon);color:var(--maroon);transform:translateY(-1px)}
+  a.btn.primary{background:var(--maroon);color:#fff;border-color:var(--maroon)}
+  a.btn.primary:hover{background:#6d1934;color:#fff}
+  .divider{height:1px;background:var(--line);margin:38px 0}
+  section h2{
+    font-family:Georgia,serif;font-size:22px;margin-bottom:14px;font-weight:700;
+  }
+  .abstract{font-size:17px;color:#2a2a2a;line-height:1.72}
+  .summary{
+    margin-top:22px;padding:16px 20px;border-left:4px solid var(--orange);
+    background:#fff7ef;border-radius:0 8px 8px 0;font-size:15.5px;
+  }
+  .summary b{color:var(--orange)}
+  .pdf-frame{
+    width:100%;height:78vh;min-height:560px;margin-top:18px;
+    border:1px solid var(--line);border-radius:10px;background:#fff;
+  }
+  pre.bib{
+    background:#1f1c19;color:#e8e2d6;font-size:13px;line-height:1.55;
+    padding:18px 20px;border-radius:10px;overflow:auto;margin-top:14px;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  footer{
+    margin-top:48px;padding:28px 0 50px;border-top:1px solid var(--line);
+    font-size:13.5px;color:var(--muted);
+  }
+  footer a{color:var(--maroon);text-decoration:none}
+  footer a:hover{text-decoration:underline}
+  @media (max-width:560px){.pdf-frame{height:62vh}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <p class="kicker">Virginia Tech · Industrial &amp; Systems Engineering</p>
+    <h1>Epidemic Modeling with Generative Agents</h1>
+    <p class="authors">
+      Ross Williams<sup>1</sup>, Niyousha Hosseinichimeh<sup>1</sup>,
+      Aritra Majumdar<sup>2</sup>, Navid Ghaffarzadegan<sup>1</sup>
+    </p>
+    <p class="affil">
+      <sup>1</sup>Industrial &amp; Systems Engineering, Virginia Tech &nbsp;·&nbsp;
+      <sup>2</sup>Computer Science, Virginia Tech
+    </p>
+    <div class="badges">
+      <span class="badge">arXiv:2307.04986</span>
+      <span class="badge">2023</span>
+      <span class="badge">Generative Agent-Based Modeling</span>
+    </div>
+    <div class="actions">
+      <a class="btn primary" href="paper.pdf">📄 Read the Paper (PDF)</a>
+      <a class="btn" href="https://arxiv.org/abs/2307.04986">arXiv</a>
+      <a class="btn" href="https://github.com/RossFW/Paper1-Epidemic-Generative-Agent-Based-Model">Code &amp; Data</a>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <div class="divider"></div>
+
+  <section>
+    <h2>Abstract</h2>
+    <p class="abstract">
+      This study offers a new paradigm of individual-level modeling to address the grand
+      challenge of incorporating human behavior in epidemic models. Using generative
+      artificial intelligence in an agent-based epidemic model, each agent is empowered to
+      make its own reasonings and decisions via connecting to a large language model such as
+      ChatGPT. Through various simulation experiments, we present compelling evidence that
+      generative agents mimic real-world behaviors such as quarantining when sick and
+      self-isolation when cases rise. Collectively, the agents demonstrate patterns akin to
+      the multiple waves observed in recent pandemics followed by an endemic period.
+      Moreover, the agents successfully flatten the epidemic curve. This study creates the
+      potential to improve dynamic system modeling by offering a way to represent the human
+      brain, reasoning, and decision-making.
+    </p>
+    <div class="summary">
+      <b>One-sentence summary:</b> A new modeling technique using generative AI applied to an
+      epidemic to incorporate human reasoning and decision-making.
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>The Paper</h2>
+    <iframe class="pdf-frame" src="paper.pdf#view=FitH" title="Epidemic Modeling with Generative Agents — full paper"></iframe>
+  </section>
+
+  <div class="divider"></div>
+
+  <section>
+    <h2>Cite</h2>
+    <pre class="bib">@article{williams2023epidemic,
+  title   = {Epidemic Modeling with Generative Agents},
+  author  = {Williams, Ross and Hosseinichimeh, Niyousha and Majumdar, Aritra and Ghaffarzadegan, Navid},
+  journal = {arXiv preprint arXiv:2307.04986},
+  year    = {2023}
+}</pre>
+  </section>
+
+  <footer>
+    Ross Williams · <a href="mailto:rossfw@vt.edu">rossfw@vt.edu</a> ·
+    <a href="https://github.com/RossFW/Paper1-Epidemic-Generative-Agent-Based-Model">GitHub repository</a><br>
+    Published code: <a href="https://github.com/bear96/GABM-Epidemic">bear96/GABM-Epidemic</a>
+  </footer>
+</div>
+</body>
+</html>
